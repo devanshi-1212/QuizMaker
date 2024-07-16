@@ -1,0 +1,84 @@
+.contain {
+  padding: 30px;
+}
+
+.start {
+  display: flex;
+}
+
+.logoutbtn {
+  cursor: pointer;
+  height: 30px;
+  margin-top: 30px;
+  margin-left: 30px;
+  border-radius: 5px;
+  border-color: transparent;
+  background-color: rgb(157, 199, 242);
+  font-size: 15px;
+}
+
+.logoutbtn:hover {
+  background-color: rgb(105, 174, 243);
+}
+
+.createtestbtnn {
+  cursor: pointer;
+  height: 30px;
+  margin-top: 10px;
+  margin-right: 20px;
+  border-radius: 5px;
+  border-color: transparent;
+  background-color: rgb(229, 194, 142);
+  font-size: 15px;
+}
+
+.createtestbtnn:hover {
+  background-color: rgb(231, 172, 83);
+}
+
+.validtest {
+  display: flex;
+}
+
+.validtesttnput {
+  height: 30px;
+  margin-top: 12px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.validtestbtn {
+  height: 30px;
+  cursor: pointer;
+  margin-top: 14px;
+  border-radius: 5px;
+  border-color: transparent;
+  background-color: rgb(229, 194, 142);
+}
+
+.validtestbtn:hover {
+  background-color: rgb(231, 172, 83);
+}
+
+.displayentries {
+  display: flex;
+  margin-top: 20px;
+}
+
+.displayentries-item {
+  flex: 1;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+.testitems {
+  display: flex;
+}
+
+.titem {
+  margin-left: 10px;
+  font-size: 15px;
+}
