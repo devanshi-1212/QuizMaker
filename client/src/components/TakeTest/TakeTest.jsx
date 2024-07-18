@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./TakeTest.css";
 import { ToastContainer } from "react-toastify";
-import { handleSuccess } from "../../utils";
+import { handleError, handleSuccess } from "../../utils";
 import axios from "axios";
 
 const TakeTest = () => {
@@ -25,6 +25,8 @@ const TakeTest = () => {
   const [answers, setAnswers] = useState(tempKey);
   const [result, setResult] = useState(0);
   const [resok, setResOk] = useState(false);
+  const [permissions, setPermissions] = useState([false, false, false]);
+  const [fullscreen, setFullscreen] = useState(false);
 
   const handleStartTest = () => {
     handleSuccess("Test Started.");
@@ -32,6 +34,113 @@ const TakeTest = () => {
       setStartTest(1);
     }, 500);
   };
+
+  useEffect(() => {
+    if (startTest === 0) {
+      const secop = state[0].security;
+
+      if (secop[0] === true) {
+        const cameraPerm = async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+              audio: true,
+            });
+
+            setPermissions((prevperm) => {
+              const newperm = [...prevperm];
+              newperm[0] = true;
+              return newperm;
+            });
+          } catch (error) {
+            console.error("Error accessing media devices:", error);
+            setPermissions((prevperm) => {
+              const newperm = [...prevperm];
+              newperm[0] = false;
+              return newperm;
+            });
+          }
+        };
+
+        cameraPerm();
+      }
+
+      if (secop[1] === true) {
+        setPermissions((prevperm) => {
+          const newperm = [...prevperm];
+          newperm[1] = true;
+          return newperm;
+        });
+      }
+
+      if (secop[2] === true) {
+        setPermissions((prevperm) => {
+          const newperm = [...prevperm];
+          newperm[2] = true;
+          return newperm;
+        });
+      }
+    }
+  }, [startTest]);
+
+  const handleFullScreen = () => {
+    const element = document.getElementById("containerr");
+    const isFullScreen = document.fullscreenElement;
+
+    if (isFullScreen) {
+      document.exitFullscreen();
+      setFullscreen(false);
+    } else {
+      element.requestFullscreen();
+      setFullscreen(true);
+    }
+  };
+
+  useEffect(() => {
+    window
+      .matchMedia("(display-mode: fullscreen)")
+      .addListener(({ matches }) => {
+        if (!matches) setFullscreen(false);
+        else setFullscreen(true);
+      });
+  }, []);
+
+  useEffect(() => {
+    const handleBlur = () => {
+      if (startTest === 1 && permissions[2] === true) {
+        handleError(
+          `Tab switching detected!
+          Refrain from it else test will be terminated!`
+        );
+      }
+    };
+
+    window.addEventListener("blur", handleBlur);
+
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+    };
+  }, [permissions, startTest]);
+
+  // useEffect(() => {
+  //   if (startTest === 1 && permissions[1] === true) {
+  //     window
+  //       .matchMedia("(display-mode: fullscreen)")
+  //       .addListener(({ matches }) => {
+  //         if (!matches) {
+  //           if (
+  //             window.confirm(
+  //               "Enable full screen mode else test will be terminated."
+  //             )
+  //           ) {
+  //             const element = document.getElementById("containerr");
+  //             element.requestFullscreen();
+  //             setFullscreen(true);
+  //           }
+  //         } else setFullscreen(true);
+  //       });
+  //   }
+  // }, [startTest, permissions]);
 
   useEffect(() => {
     if (startTest === 1 && time > 0) {
@@ -118,7 +227,7 @@ const TakeTest = () => {
   }, [resok]);
 
   return (
-    <div className="container">
+    <div className="containerr" id="containerr">
       <div className="opening">
         <h1>Take Test: {state[0].testName}</h1>
         <button
@@ -131,26 +240,75 @@ const TakeTest = () => {
         </button>
       </div>
 
-      <div className="starting">
-        <p>Created by: {state[0].createdBy}</p>
-        <p>Test Code: {state[0].testID}</p>
-        <p>Time Remaining: {getFormattedTime(time)}</p>
+      <div className="intro">
+        <div className="intro1">
+          <p>Created by: {state[0].createdBy}</p>
+          <p>Test Code: {state[0].testID}</p>
+          <p>Time Remaining: {getFormattedTime(time)}</p>
 
-        <button
-          className="startbtn"
-          onClick={() => handleStartTest()}
-          disabled={!(startTest === 0)}
-        >
-          Start Test
-        </button>
+          <button
+            className="startbtn"
+            onClick={() => handleStartTest()}
+            disabled={!(startTest === 0)}
+          >
+            Start Test
+          </button>
 
-        <button
-          className="finishbtn"
-          onClick={() => handleFinishTest()}
-          disabled={!(startTest === 1)}
-        >
-          Finish Test
-        </button>
+          <button
+            className="finishbtn"
+            onClick={() => handleFinishTest()}
+            disabled={!(startTest === 1)}
+          >
+            Finish Test
+          </button>
+        </div>
+
+        <div className="intro2">
+          {permissions[0] === true && (
+            <div>
+              <ul>
+                <li>
+                  <p>
+                    This test has camera and audio proctoring. Kindly refrain
+                    from cheating or making any unnecessary movements else test
+                    will be terminated.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {permissions[1] === true && (
+            <div>
+              <ul>
+                <li>
+                  <p>
+                    Kindly keep full screen mode else test will be terminated.
+                  </p>
+                  <button className="fullscreenbtn" onClick={handleFullScreen}>
+                    {fullscreen === false
+                      ? "Enable Full Screen"
+                      : "Disable Full Screen"}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {permissions[2] === true && (
+            <div>
+              <ul>
+                <li>
+                  <p>
+                    Kindly refrain from switching tabs or using other
+                    applications while taking the test. If any such activity is
+                    detected, your test will be terminated.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
 
       <br />

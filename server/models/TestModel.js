@@ -35,6 +35,11 @@ const testSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+
+  security: {
+    type: [Boolean],
+    required: true,
+  },
 });
 
 const testModel = mongoose.model("Test", testSchema);

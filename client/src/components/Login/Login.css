@@ -25,5 +25,9 @@
   font-size: 17px;
   border-radius: 5px;
   border-color: transparent;
-  background-color: rgb(95, 208, 95);
+  background-color: rgb(62, 141, 62);
+}
+
+.submitbtn:hover {
+  background-color: rgb(29, 113, 29);
 }

@@ -6,6 +6,15 @@
   display: flex;
 }
 
+.container2 {
+  display: flex;
+}
+
+.container2item {
+  flex: 1;
+  font-size: 17px;
+}
+
 .gobackbtn {
   cursor: pointer;
   height: 30px;
@@ -44,7 +53,7 @@
 
 .iteminput2 {
   height: 20px;
-  margin-top: 18px;
+  margin-top: 40px;
   margin-left: 10px;
   border-radius: 5px;
 }
@@ -56,12 +65,12 @@
   margin-left: 10px;
   border-radius: 5px;
   border-color: transparent;
-  background-color: rgb(157, 199, 242);
+  background-color: rgb(153, 214, 176);
   font-size: 15px;
 }
 
 .gencodebtn:hover {
-  background-color: rgb(105, 174, 243);
+  background-color: rgb(122, 171, 141);
 }
 
 .addquesbtn {
@@ -71,12 +80,12 @@
   margin-right: 20px;
   border-radius: 5px;
   border-color: transparent;
-  background-color: rgb(157, 199, 242);
+  background-color: rgb(153, 214, 176);
   font-size: 15px;
 }
 
 .addquesbtn:hover {
-  background-color: rgb(105, 174, 243);
+  background-color: rgb(122, 171, 141);
 }
 
 .createtestbtn {
@@ -86,12 +95,12 @@
   margin-right: 20px;
   border-radius: 5px;
   border-color: transparent;
-  background-color: rgb(68, 215, 81);
+  background-color: rgb(94, 242, 99);
   font-size: 15px;
 }
 
 .createtestbtn:hover {
-  background-color: rgb(23, 164, 35);
+  background-color: rgb(82, 214, 86);
 }
 
 .quescontainer {

@@ -1,3 +1,16 @@
+.containerr {
+  padding: 30px;
+}
+
+.containerr:fullscreen {
+  --backdrop-color: rgb(255, 255, 255);
+  background: transparent;
+}
+
+.containerr:fullscreen::backdrop {
+  background-color: var(--backdrop-color);
+}
+
 .opening {
   display: flex;
 }
@@ -17,8 +30,21 @@
   background-color: rgb(180, 232, 66);
 }
 
-.starting {
+.intro {
+  display: flex;
+}
+
+.intro1 {
   font-size: 17px;
+  flex: 1;
+}
+
+.intro2 {
+  flex: 1;
+  border: 5px solid;
+  padding-right: 15px;
+  font-weight: 500;
+  height: fit-content;
 }
 
 .startbtn {
@@ -45,6 +71,19 @@
 
 .finishbtn:enabled:hover {
   background-color: rgb(242, 93, 93);
+}
+
+.fullscreenbtn {
+  cursor: pointer;
+  height: 30px;
+  border-radius: 5px;
+  border-color: transparent;
+  background-color: rgb(93, 174, 125);
+  margin-right: 20px;
+}
+
+.fullscreenbtn:hover {
+  background-color: rgb(63, 149, 98);
 }
 
 .result {

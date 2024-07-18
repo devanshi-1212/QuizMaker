@@ -4,7 +4,7 @@ import axios from "axios";
 import { nanoid } from "nanoid";
 import { ToastContainer } from "react-toastify";
 import "./CreateTest.css";
-import { handleSuccess } from "../../utils";
+import { handleError, handleSuccess } from "../../utils";
 
 const CreateTest = () => {
   const [loggedInUser, setLoggedInUser] = useState("");
@@ -14,6 +14,7 @@ const CreateTest = () => {
   const [tracker, setTracker] = useState([]);
   const [testID, setTestID] = useState(nanoid(8));
   const [ansKey, setAnsKey] = useState("");
+  const [secoption, setSecOption] = useState([false, false, false]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +41,10 @@ const CreateTest = () => {
     setTracker((prevTracker) => {
       return prevTracker.filter((tracker, i) => i !== quesIndex);
     });
+
+    var key = ansKey;
+    const newText = key.slice(0, quesIndex) + key.slice(quesIndex + 1);
+    setAnsKey(newText);
   };
 
   const handleAddTextOption = (quesIndex) => {
@@ -196,8 +201,31 @@ const CreateTest = () => {
     setTracker(updatedTracker);
   };
 
+  const handleSecurityOptions = (index) => {
+    setSecOption((prevOptions) => {
+      const newOptions = [...prevOptions];
+      newOptions[index] = !newOptions[index];
+      return newOptions;
+    });
+  };
+
   const handleCreateTest = (e) => {
     e.preventDefault();
+
+    if (!testName) {
+      handleError("Enter Test Name.");
+      return;
+    }
+
+    if (!testDuration) {
+      handleError("Enter Test Duration.");
+      return;
+    }
+
+    if (ques.length === 0) {
+      handleError("Add atleast 1 question to create test.");
+      return;
+    }
 
     const data = {
       testID: testID,
@@ -207,6 +235,7 @@ const CreateTest = () => {
       questions: ques,
       anskey: ansKey,
       tookBy: [],
+      security: secoption,
     };
 
     console.log(data);
@@ -238,44 +267,83 @@ const CreateTest = () => {
         </button>
       </div>
 
-      <div>
-        <div className="itemm">
-          <p className="itempara1">Enter Test Name</p>
-          <input
-            className="iteminput1"
-            type="text"
-            value={testName}
-            onChange={(e) => setTestName(e.target.value)}
-          />
-        </div>
+      <div className="container2">
+        <div className="container2item">
+          <div className="itemm">
+            <p className="itempara1">Enter Test Name</p>
+            <input
+              className="iteminput1"
+              type="text"
+              value={testName}
+              onChange={(e) => setTestName(e.target.value)}
+            />
+          </div>
 
-        <div className="itemm">
-          <p className="itempara2">
-            Enter Test Duration in HH:MM:SS format. (e.g. If 1 hour 30 mins
-            test, enter 01:30:00) :
-          </p>
+          <div className="itemm">
+            <p className="itempara2">
+              Enter Test Duration in HH:MM:SS format. <br />
+              (e.g. If 1 hour 30 mins test, enter 01:30:00) :
+            </p>
 
-          <input
-            className="iteminput2"
-            type="text"
-            value={testDuration}
-            onChange={(e) => setTestDuration(e.target.value)}
-          />
-        </div>
+            <input
+              className="iteminput2"
+              type="text"
+              value={testDuration}
+              onChange={(e) => setTestDuration(e.target.value)}
+            />
+          </div>
 
-        <div className="itemm">
-          <p className="itempara2">Test Code: {testID}</p>
-          <button className="gencodebtn" onClick={() => setTestID(nanoid(8))}>
-            Generate new code
+          <div className="itemm">
+            <p className="itempara2">Test Code: {testID}</p>
+            <button className="gencodebtn" onClick={() => setTestID(nanoid(8))}>
+              Generate new code
+            </button>
+          </div>
+
+          <button className="addquesbtn" onClick={() => handleAddQuestion()}>
+            Add new question
+          </button>
+          <button
+            className="createtestbtn"
+            onClick={(e) => handleCreateTest(e)}
+          >
+            Create test
           </button>
         </div>
 
-        <button className="addquesbtn" onClick={() => handleAddQuestion()}>
-          Add new question
-        </button>
-        <button className="createtestbtn" onClick={(e) => handleCreateTest(e)}>
-          Create test
-        </button>
+        <div className="container2item">
+          <p>Security Options:</p>
+
+          <input
+            type="checkbox"
+            id="option1"
+            checked={secoption[0]}
+            onChange={() => handleSecurityOptions(0)}
+          />
+          <label for="option1">Camera & Audio Proctoring</label>
+          <br />
+          <br />
+
+          <input
+            type="checkbox"
+            id="option2"
+            checked={secoption[1]}
+            onChange={() => handleSecurityOptions(1)}
+          />
+          <label for="option2">Enable full screen mode all time</label>
+          <br />
+          <br />
+
+          <input
+            type="checkbox"
+            id="option3"
+            checked={secoption[2]}
+            onChange={() => handleSecurityOptions(2)}
+          />
+          <label for="option3">Detect tab switch</label>
+          <br />
+          <br />
+        </div>
       </div>
 
       <div className="quescontainer">
