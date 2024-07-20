@@ -188,7 +188,7 @@ const TakeTest = () => {
     const postSubmit = async () => {
       try {
         await axios
-          .get(`http://localhost:5000/submittest?code=${state[0].testID}`)
+          .get(`https://test-maker-7x19.onrender.com/submittest?code=${state[0].testID}`)
           .then((response) => {
             const origanswers = response.data;
 
@@ -216,7 +216,7 @@ const TakeTest = () => {
       console.log(data);
 
       axios
-        .post("http://localhost:5000/submittest", data)
+        .post("https://test-maker-7x19.onrender.com/submittest", data)
         .then((result) => {
           console.log(result.data);
         })
