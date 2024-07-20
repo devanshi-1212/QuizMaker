@@ -22,7 +22,7 @@ const Dashboard = () => {
     const fetchCreatedTests = async () => {
       try {
         await axios
-          .get(`http://localhost:5000/findcreatedtests?user=${loggedInUser}`)
+          .get(`https://test-maker-7x19.onrender.com/findcreatedtests?user=${loggedInUser}`)
           .then((response) => {
             if (response.data.message === undefined)
               setCreatedTests(response.data);
@@ -37,7 +37,7 @@ const Dashboard = () => {
     const fetchTakenTests = async () => {
       try {
         await axios
-          .get(`http://localhost:5000/findtakentests?user=${loggedInUser}`)
+          .get(`https://test-maker-7x19.onrender.com/findtakentests?user=${loggedInUser}`)
           .then((response) => {
             if (response.data.message === undefined)
               setTakenTests(response.data);
@@ -58,7 +58,7 @@ const Dashboard = () => {
   const getTest = async () => {
     try {
       await axios
-        .get(`http://localhost:5000/taketest?code=${testCode}`)
+        .get(`https://test-maker-7x19.onrender.com/taketest?code=${testCode}`)
         .then((response) => {
           const testData = response.data;
           navigate(`/taketest/${testCode}`, {
