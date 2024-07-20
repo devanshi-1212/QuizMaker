@@ -30,7 +30,7 @@ const Signup = () => {
     }
 
     try {
-      const url = "http://localhost:5000/signup";
+      const url = "https://test-maker-7x19.onrender.com/signup";
       const response = await fetch(url, {
         method: "POST",
         headers: {
