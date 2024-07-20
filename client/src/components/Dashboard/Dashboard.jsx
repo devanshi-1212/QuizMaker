@@ -111,7 +111,7 @@ const Dashboard = () => {
       </div>
 
       <div className="displayentries">
-        <div className="displayentries-item">
+        <div className="displayentries-item1">
           <p>Tests you created appear here:</p>
 
           {loggedInUser && foundCreatedTests === false ? (
@@ -133,7 +133,7 @@ const Dashboard = () => {
           )}
         </div>
 
-        <div className="displayentries-item">
+        <div className="displayentries-item2">
           <p>Tests you took appear here:</p>
 
           {loggedInUser && foundTakenTests === false ? (
