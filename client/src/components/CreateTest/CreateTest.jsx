@@ -241,7 +241,7 @@ const CreateTest = () => {
     console.log(data);
 
     axios
-      .post("http://localhost:5000/createtest", data)
+      .post("https://test-maker-7x19.onrender.com/createtest", data)
       .then((result) => {
         console.log(result.data);
         handleSuccess("Test created successfully.");
